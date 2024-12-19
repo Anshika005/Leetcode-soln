@@ -1,0 +1,14 @@
+class Solution {
+    public int countDigits(int num) {
+        int ans = 0;
+        int originalNum = num;
+        while (num != 0) {
+            int n = num % 10; 
+            if (originalNum % n == 0) { 
+                ans++;
+            }
+            num = num / 10; 
+        }
+        return ans;
+    }
+}
