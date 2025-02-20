@@ -29,7 +29,6 @@ class Solution {
             SR++;
             EC--;
             ER--;
-        }
-        return result; 
+        }return result; 
     }
 }
