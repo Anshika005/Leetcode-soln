@@ -15,8 +15,7 @@ class Solution {
             }
             for (int j = EC - 1; j >= SC; j--) {
                 if (SR == ER) { 
-                    break;
-                }
+                    break;}
                 result.add(matrix[ER][j]);
             }
             for (int i = ER - 1; i >= SR + 1; i--) {
