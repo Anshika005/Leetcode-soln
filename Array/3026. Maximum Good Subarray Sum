@@ -1,0 +1,45 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public long maximumSubarraySum(int[] nums, int k) {
+        // Map stores: {number -> minimum prefix sum that occurred BEFORE this number}
+        Map<Integer, Long> minPrefixSumMap = new HashMap<>();
+        
+        long currentPrefixSum = 0;
+        long maxSum = Long.MIN_VALUE;
+        boolean foundGoodSubarray = false;
+
+        for (int num : nums) {
+            // Two possible targets for the start of the subarray
+            int target1 = num - k;
+            int target2 = num + k;
+
+            // Check if we have seen target1 before and calculate a potential max sum
+            if (minPrefixSumMap.containsKey(target1)) {
+                foundGoodSubarray = true;
+                // Sum = (prefix sum up to current) - (min prefix sum before target1)
+                long subarraySum = currentPrefixSum + num - minPrefixSumMap.get(target1);
+                maxSum = Math.max(maxSum, subarraySum);
+            }
+            
+            // Check if we have seen target2 before and calculate a potential max sum
+            if (minPrefixSumMap.containsKey(target2)) {
+                foundGoodSubarray = true;
+                long subarraySum = currentPrefixSum + num - minPrefixSumMap.get(target2);
+                maxSum = Math.max(maxSum, subarraySum);
+            }
+
+            // Update the map with the prefix sum BEFORE the current number.
+            // This ensures we always store the smallest prefix sum for a given number value,
+            // which is key to maximizing the subarray sum.
+            long existingMinPrefix = minPrefixSumMap.getOrDefault(num, Long.MAX_VALUE);
+            minPrefixSumMap.put(num, Math.min(existingMinPrefix, currentPrefixSum));
+
+            // Update the prefix sum for the next iteration
+            currentPrefixSum += num;
+        }
+
+        return foundGoodSubarray ? maxSum : 0;
+    }
+}
